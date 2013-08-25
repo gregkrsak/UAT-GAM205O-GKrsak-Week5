@@ -41,12 +41,21 @@ namespace GK.Xna.Mechanics
         public override void Animate(GameTime gameTime)
         {
             base.Animate(gameTime);
-            foreach (GK.Xna.Game.GameEntity2D entity in this.ManagedEntities)
+            foreach (GK.Xna.Game.GameEntityHybrid entity in this.ManagedEntities)
             {
-                // Move the entity's models
-                foreach (GK.Xna.Game.EntityState2D state in entity.EntityStates)
+                // move entity's models
+                foreach (GK.Xna.Game.EntityStateHybrid state in entity.EntityStates)
                 {
-                    //state.Model.
+                    // rotate
+                    Quaternion rotationBuffer = new Quaternion();
+                    Quaternion.CreateFromYawPitchRoll(0.0f, 0.0f, (float)entity.Rotation, out rotationBuffer);
+                    state.Model.Rotation = rotationBuffer;
+
+                    // scale
+
+                    // translate
+                    Vector3 velocityBuffer = new Vector3(entity.Velocity, 0.0f);
+                    state.Model.Position = Vector3.Add(state.Model.Position, velocityBuffer);
                 }
             }
         }
