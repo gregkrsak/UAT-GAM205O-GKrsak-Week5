@@ -83,6 +83,10 @@
       <Project>{49CD4496-0171-40BC-A5E0-A7127B3D2BCD}</Project>
       <Name>GK.Xna.Mechanics.MovementManager2D</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GK.Xna.Models.Model\GK.Xna.Models.Model.csproj">
+      <Project>{9D67313A-C058-4DE0-A9E6-5D4412854846}</Project>
+      <Name>GK.Xna.Models.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GK.Xna.Patterns.Observer\GK.Xna.Patterns.Observer.csproj">
       <Project>{D7BC32A5-C0FD-4F97-AD3B-65005F3EA87E}</Project>
       <Name>GK.Xna.Patterns.Observer</Name>
