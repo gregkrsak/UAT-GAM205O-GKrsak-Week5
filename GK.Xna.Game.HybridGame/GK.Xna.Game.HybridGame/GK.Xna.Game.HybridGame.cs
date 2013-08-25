@@ -63,7 +63,7 @@ namespace GK.Xna.Game
             this._cameras["active"] = this._cameras["perspectiveCamera"];
             // Initialize entity managers
             this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
-            this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["perspectiveCamera"]);
+            this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["active"]);
             this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
             this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
         }
