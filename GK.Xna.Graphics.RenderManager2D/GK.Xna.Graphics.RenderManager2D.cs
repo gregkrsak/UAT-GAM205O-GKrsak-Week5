@@ -1,4 +1,4 @@
-/// GK.Xna.Mechanics.RenderManager2D.cs
+/// GK.Xna.Graphics.RenderManager2D.cs
 ///
 /// Entity rendering manager library for XNA 4.
 ///
@@ -55,7 +55,7 @@ namespace GK.Xna.Graphics
         }
 
 
-        public void Render(SpriteBatch spriteBatch)
+        public virtual void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             foreach (GK.Xna.Game.GameEntity2D entity in this._managedEntities)

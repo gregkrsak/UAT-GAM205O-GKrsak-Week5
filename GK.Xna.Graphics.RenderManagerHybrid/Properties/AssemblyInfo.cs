@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GK.Xna.Mechanics.RenderManager2D")]
-[assembly: AssemblyProduct("GK.Xna.Mechanics.RenderManager2D")]
+[assembly: AssemblyTitle("GK.Xna.Graphics.RenderManagerHybrid")]
+[assembly: AssemblyProduct("GK.Xna.Graphics.RenderManagerHybrid")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid("e578416f-6010-4d3a-833b-65bf7b163cdb")]
+[assembly: Guid("0c12fd00-b6a1-47ed-bee7-3195d01f4866")]
 
 // Version information for an assembly consists of the following four values:
 //

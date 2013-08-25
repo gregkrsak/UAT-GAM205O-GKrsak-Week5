@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Mechanics.Collision2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Mechanics.MovementManager2D", "GK.Xna.Mechanics.MovementManager2D\GK.Xna.Mechanics.MovementManager2D.csproj", "{49CD4496-0171-40BC-A5E0-A7127B3D2BCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Mechanics.RenderManager2D", "GK.Xna.Mechanics.RenderManager2D\GK.Xna.Mechanics.RenderManager2D.csproj", "{054F1F15-24C5-42E1-93AA-AB89935CC2AC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Graphics.Sprite2D", "GK.Xna.Graphics.Sprite2D\GK.Xna.Graphics.Sprite2D.csproj", "{712759AD-BD2C-4C3D-B534-E7A6A97D86F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Input.KeyboardManager", "GK.Xna.Input.KeyboardManager\GK.Xna.Input.KeyboardManager.csproj", "{9F4F46F1-0BCC-488B-8B00-79583B5BC63B}"
@@ -39,7 +37,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Mechanics.MovementMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Game.HybridGame", "GK.Xna.Game.HybridGame\GK.Xna.Game.HybridGame\GK.Xna.Game.HybridGame.csproj", "{FD246F66-598B-4CD7-AACE-EF59B114187D}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GK.Xna.Game.HybridGameContent", "GK.Xna.Game.HybridGame\GK.Xna.Game.HybridGameContent\GK.Xna.Game.HybridGameContent.contentproj", "{85AF21AF-27C8-4B2B-B2CD-A5B7BA71C795}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Game.HybridGameContent", "GK.Xna.Game.HybridGame\GK.Xna.Game.HybridGameContent\GK.Xna.Game.HybridGameContent.contentproj", "{85AF21AF-27C8-4B2B-B2CD-A5B7BA71C795}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Graphics.RenderManager2D", "GK.Xna.Graphics.RenderManager2D\GK.Xna.Graphics.RenderManager2D.csproj", "{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK.Xna.Graphics.RenderManagerHybrid", "GK.Xna.Graphics.RenderManagerHybrid\GK.Xna.Graphics.RenderManagerHybrid.csproj", "{E272D04D-6110-4F95-AAC4-45A0FBF54399}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +69,6 @@ Global
 		{49CD4496-0171-40BC-A5E0-A7127B3D2BCD}.Debug|x86.Build.0 = Debug|x86
 		{49CD4496-0171-40BC-A5E0-A7127B3D2BCD}.Release|x86.ActiveCfg = Release|x86
 		{49CD4496-0171-40BC-A5E0-A7127B3D2BCD}.Release|x86.Build.0 = Release|x86
-		{054F1F15-24C5-42E1-93AA-AB89935CC2AC}.Debug|x86.ActiveCfg = Debug|x86
-		{054F1F15-24C5-42E1-93AA-AB89935CC2AC}.Debug|x86.Build.0 = Debug|x86
-		{054F1F15-24C5-42E1-93AA-AB89935CC2AC}.Release|x86.ActiveCfg = Release|x86
-		{054F1F15-24C5-42E1-93AA-AB89935CC2AC}.Release|x86.Build.0 = Release|x86
 		{712759AD-BD2C-4C3D-B534-E7A6A97D86F1}.Debug|x86.ActiveCfg = Debug|x86
 		{712759AD-BD2C-4C3D-B534-E7A6A97D86F1}.Debug|x86.Build.0 = Debug|x86
 		{712759AD-BD2C-4C3D-B534-E7A6A97D86F1}.Release|x86.ActiveCfg = Release|x86
@@ -125,6 +123,14 @@ Global
 		{FD246F66-598B-4CD7-AACE-EF59B114187D}.Release|x86.Build.0 = Release|x86
 		{85AF21AF-27C8-4B2B-B2CD-A5B7BA71C795}.Debug|x86.ActiveCfg = Debug|x86
 		{85AF21AF-27C8-4B2B-B2CD-A5B7BA71C795}.Release|x86.ActiveCfg = Release|x86
+		{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}.Debug|x86.ActiveCfg = Debug|x86
+		{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}.Debug|x86.Build.0 = Debug|x86
+		{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}.Release|x86.ActiveCfg = Release|x86
+		{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}.Release|x86.Build.0 = Release|x86
+		{E272D04D-6110-4F95-AAC4-45A0FBF54399}.Debug|x86.ActiveCfg = Debug|x86
+		{E272D04D-6110-4F95-AAC4-45A0FBF54399}.Debug|x86.Build.0 = Debug|x86
+		{E272D04D-6110-4F95-AAC4-45A0FBF54399}.Release|x86.ActiveCfg = Release|x86
+		{E272D04D-6110-4F95-AAC4-45A0FBF54399}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

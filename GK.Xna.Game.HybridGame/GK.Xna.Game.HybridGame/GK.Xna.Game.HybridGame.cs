@@ -36,8 +36,11 @@ namespace GK.Xna.Game
         protected Dictionary<Byte, Song> _songs;
         // Entities
         protected List<GK.Xna.Game.GameEntityHybrid> _entities;
+        // Cameras 
+        protected Dictionary<String, GK.Xna.Cameras.Camera> _cameras;
         // Entity managers
         GK.Xna.Graphics.AnimationManager2D _animationManager;
+        GK.Xna.Graphics.RenderManagerHybrid _renderManager;
         GK.Xna.Mechanics.CollisionManager2D _collisionManager;
         GK.Xna.Mechanics.MovementManagerHybrid _movementManager;
 
@@ -53,8 +56,12 @@ namespace GK.Xna.Game
             this._songs = new Dictionary<byte, Song>();
             // Initialize entity container
             this._entities = new List<GameEntityHybrid>();
+            // Initialize cameras
+            this._cameras = new Dictionary<string, GK.Xna.Cameras.Camera>();
+            this._cameras["perspectiveCamera"] = new GK.Xna.Cameras.Camera(new Vector3(Vector2.Zero, -500.0f), Vector3.Zero, Vector3.Up, this);
             // Initialize entity managers
             this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
+            this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["perspectiveCamera"]);
             this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
             this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
         }

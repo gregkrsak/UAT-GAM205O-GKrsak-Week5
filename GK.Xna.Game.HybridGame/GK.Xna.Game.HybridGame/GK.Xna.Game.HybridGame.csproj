@@ -86,6 +86,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GK.Xna.Cameras.Camera\GK.Xna.Cameras.Camera.csproj">
+      <Project>{6BB2EB4B-6985-4360-97D2-4C478FF77F0F}</Project>
+      <Name>GK.Xna.Cameras.Camera</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GK.Xna.Game.EntityStateHybrid\GK.Xna.Game.EntityStateHybrid.csproj">
       <Project>{87BFB3CC-37A4-419A-9D39-64E97039F31D}</Project>
       <Name>GK.Xna.Game.EntityStateHybrid</Name>
@@ -105,6 +109,14 @@
     <ProjectReference Include="..\..\GK.Xna.Graphics.AnimationManager2D\GK.Xna.Graphics.AnimationManager2D.csproj">
       <Project>{692C1768-9787-4D07-BD72-5E426B51EC65}</Project>
       <Name>GK.Xna.Graphics.AnimationManager2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GK.Xna.Graphics.RenderManager2D\GK.Xna.Graphics.RenderManager2D.csproj">
+      <Project>{4AE0039F-DAC2-4EC5-92F0-24EE0A1E0C56}</Project>
+      <Name>GK.Xna.Graphics.RenderManager2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GK.Xna.Graphics.RenderManagerHybrid\GK.Xna.Graphics.RenderManagerHybrid.csproj">
+      <Project>{E272D04D-6110-4F95-AAC4-45A0FBF54399}</Project>
+      <Name>GK.Xna.Graphics.RenderManagerHybrid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\GK.Xna.Mechanics.CollisionManager2D\GK.Xna.Mechanics.CollisionManager2D.csproj">
       <Project>{47624CD6-C017-4B2A-8CFC-051C9DF2C871}</Project>
