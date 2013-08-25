@@ -60,6 +60,7 @@ namespace GK.Xna.Game
             this._cameras = new Dictionary<string, GK.Xna.Cameras.Camera>();
             this._cameras["perspectiveCamera"] = new GK.Xna.Cameras.Camera(new Vector3(Vector2.Zero, -500.0f), Vector3.Zero, Vector3.Up, this);
             this._cameras["orthographicCamera"] = GK.Xna.Cameras.Camera.Orthographic(new Vector2(this.GraphicsDevice.Viewport.Width * 0.5f, this.GraphicsDevice.Viewport.Height * 0.5f));
+            this._cameras["active"] = this._cameras["perspectiveCamera"];
             // Initialize entity managers
             this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
             this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["perspectiveCamera"]);
@@ -192,6 +193,15 @@ namespace GK.Xna.Game
         public GK.Xna.Mechanics.MovementManagerHybrid MovementManager
         {
             get { return this._movementManager; }
+        }
+
+
+        /// <summary>
+        /// The active camera.
+        /// </summary>
+        public GK.Xna.Cameras.Camera ActiveCamera
+        {
+            get { return this._cameras["active"]; }
         }
     }
 }
