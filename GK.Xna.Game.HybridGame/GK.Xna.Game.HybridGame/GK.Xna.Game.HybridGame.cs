@@ -197,6 +197,15 @@ namespace GK.Xna.Game
 
 
         /// <summary>
+        /// Managers entity rendering.
+        /// </summary>
+        public GK.Xna.Graphics.RenderManagerHybrid RenderManager
+        {
+            get { return.this._renderManager; }
+        }
+
+
+        /// <summary>
         /// The active camera.
         /// </summary>
         public GK.Xna.Cameras.Camera ActiveCamera
