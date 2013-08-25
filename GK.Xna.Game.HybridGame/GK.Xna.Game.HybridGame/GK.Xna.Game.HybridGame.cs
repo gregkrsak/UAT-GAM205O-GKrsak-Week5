@@ -39,7 +39,7 @@ namespace GK.Xna.Game
         // Entity managers
         GK.Xna.Graphics.AnimationManager2D _animationManager;
         GK.Xna.Mechanics.CollisionManager2D _collisionManager;
-
+        GK.Xna.Mechanics.MovementManagerHybrid _movementManager;
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
@@ -49,6 +49,14 @@ namespace GK.Xna.Game
         {
             _graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
+            // Initialize content containers
+            this._songs = new Dictionary<byte, Song>();
+            // Initialize entity container
+            this._entities = new List<GameEntityHybrid>();
+            // Initialize entity managers
+            this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
+            this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
+            this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
         }
 
         /// <summary>
@@ -150,5 +158,32 @@ namespace GK.Xna.Game
         public Byte GameStateShutdown { get { return GK.Xna.Game.GameState.Shutdown; } }
         public Byte GameStateOff { get { return GK.Xna.Game.GameState.Off; } }
         public Byte GameStateError { get { return GK.Xna.Game.GameState.Error; } }
+
+
+        /// <summary>
+        /// Manages entity sprite animations.
+        /// </summary>
+        public GK.Xna.Graphics.AnimationManager2D AnimationManager
+        {
+            get { return this._animationManager; }
+        }
+
+
+        /// <summary>
+        /// Manages entity collisions.
+        /// </summary>
+        public GK.Xna.Mechanics.CollisionManager2D CollisionManager
+        {
+            get { return this._collisionManager; }
+        }
+
+
+        /// <summary>
+        /// Manages entity movement.
+        /// </summary>
+        public GK.Xna.Mechanics.MovementManagerHybrid MovementManager
+        {
+            get { return this._movementManager; }
+        }
     }
 }
