@@ -55,6 +55,21 @@ namespace GK.Xna.Cameras
         }
 
 
+        public Camera(Matrix view, Matrix projection)
+        {
+            this._viewMatrix = view;
+            this._projectionMatrix = projection;
+        }
+
+
+        public static GK.Xna.Cameras.Camera Orthographic(Vector2 lookAt)
+        {
+            Matrix view = Matrix.CreateLookAt(new Vector3(lookAt, 0.0f), new Vector3(lookAt, 1.0f), new Vector3(0.0f, -1.0f, 0.0f));
+            Matrix projection = Matrix.CreateOrthographic(lookAt.X * 2.0f, lookAt.Y * 2.0f, -0.5f, 1.0f);
+            return new GK.Xna.Cameras.Camera(view, projection);
+        }
+
+
         public Matrix ProjectionMatrix
         {
             get
