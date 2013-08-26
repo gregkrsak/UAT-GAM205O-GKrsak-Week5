@@ -38,19 +38,19 @@ namespace GK.Xna.Logs
 
 
         static public void Log(String text)
-        {/*
+        {
             if (null == Debug._console)
             {
                 Debug._key = 0;
                 Debug._console = new Dictionary<UInt64, Dictionary<Double, String>>();
             }
-            #if DEBUG
+            //#if DEBUG
                 Dictionary<Double, String> value = new Dictionary<Double, String>();
                 Double timestamp = Debug.UnixFromDateTime(DateTime.Now);
                 value.Add(timestamp, text);
                 Debug._console.Add(Debug._key++, value);
                 System.Console.WriteLine("[" + timestamp + "] " + text);
-            #endif*/
+            //#endif
         }
 
 

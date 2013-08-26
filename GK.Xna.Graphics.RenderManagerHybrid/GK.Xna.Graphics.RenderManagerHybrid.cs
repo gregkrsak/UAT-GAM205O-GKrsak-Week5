@@ -55,7 +55,7 @@ namespace GK.Xna.Graphics
                     }
                     else
                     {
-                        GK.Xna.Logs.Debug.Log("No model for entity <<" + entity.Uuid + ">> state <<" + state.Name + ">>");
+                        //GK.Xna.Logs.Debug.Log("No model for entity <<" + entity.Uuid + ">> state <<" + state.Name + ">>");
                     }
                 }
             }

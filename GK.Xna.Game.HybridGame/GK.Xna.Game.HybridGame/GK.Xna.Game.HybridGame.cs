@@ -34,8 +34,12 @@ namespace GK.Xna.Game
     {
         // Content
         protected Dictionary<Byte, Song> _songs;
+        protected Dictionary<String, GK.Xna.Graphics.Sprite2D> _spriteSheets;
+        protected Dictionary<String, GK.Xna.Models.Model> _models;
         // Entities
-        protected List<GK.Xna.Game.GameEntityHybrid> _entities;
+        protected Dictionary<String, GK.Xna.Game.GameEntityHybrid> _entities;
+        // Entity states
+        protected Dictionary<String, EntityStateHybrid> _entityStates;
         // Cameras 
         protected Dictionary<String, GK.Xna.Cameras.Camera> _cameras;
         // Entity managers
@@ -52,20 +56,7 @@ namespace GK.Xna.Game
         {
             _graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            // Initialize content containers
-            this._songs = new Dictionary<byte, Song>();
-            // Initialize entity container
-            this._entities = new List<GameEntityHybrid>();
-            // Initialize cameras
-            this._cameras = new Dictionary<string, GK.Xna.Cameras.Camera>();
-            this._cameras["perspectiveCamera"] = new GK.Xna.Cameras.Camera(new Vector3(Vector2.Zero, -500.0f), Vector3.Zero, Vector3.Up, this);
-            this._cameras["orthographicCamera"] = GK.Xna.Cameras.Camera.Orthographic(new Vector2(this.GraphicsDevice.Viewport.Width * 0.5f, this.GraphicsDevice.Viewport.Height * 0.5f));
-            this._cameras["active"] = this._cameras["perspectiveCamera"];
-            // Initialize entity managers
-            this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
-            this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["active"]);
-            this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
-            this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
+            
         }
 
         /// <summary>
@@ -77,6 +68,25 @@ namespace GK.Xna.Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            // Initialize content containers
+            this._songs = new Dictionary<byte, Song>();
+            this._spriteSheets = new Dictionary<String, GK.Xna.Graphics.Sprite2D>();
+            this._models = new Dictionary<String, GK.Xna.Models.Model>();
+            // Initialize entity container
+            this._entities = new Dictionary<String, GK.Xna.Game.GameEntityHybrid>();
+            // Initialize entity state container
+            this._entityStates = new Dictionary<string, EntityStateHybrid>();
+            // Initialize cameras
+            this._cameras = new Dictionary<string, GK.Xna.Cameras.Camera>();
+            this._cameras["perspectiveCamera"] = new GK.Xna.Cameras.Camera(new Vector3(Vector2.Zero, -500.0f), Vector3.Zero, Vector3.Up, this);
+            this._cameras["orthographicCamera"] = GK.Xna.Cameras.Camera.Orthographic(new Vector2(this.GraphicsDevice.Viewport.Width * 0.5f, this.GraphicsDevice.Viewport.Height * 0.5f));
+            this._cameras["active"] = this._cameras["perspectiveCamera"];
+            // Initialize entity managers
+            this._animationManager = new GK.Xna.Graphics.AnimationManager2D();
+            this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["active"]);
+            this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
+            this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
 
             base.Initialize();
         }
@@ -91,6 +101,22 @@ namespace GK.Xna.Game
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
+            // Ship
+            Vector2 shipPosition = new Vector2(0.0f, 0.0f);
+            Vector2 shipVelocity = Vector2.Zero;
+            Double shipRotation = MathHelper.ToRadians(180.0f);
+            Double shipScale = 1.0;
+            Rectangle shipCollision_flying = new Rectangle(0, 0, 64, 32);
+            List<Rectangle> shipCollisions = new List<Rectangle>();
+            shipCollisions.Add(shipCollision_flying);
+            CreateModel("GKrsak-Ship-Keyhole-v1", shipPosition);
+            CreateEntity("ship", shipPosition, shipVelocity, shipRotation, shipScale);
+            CreateEntityState("ship_flying", null, "GKrsak-Ship-Keyhole-v1", shipCollisions);
+            AssignEntityStateToEntity("ship_flying", "ship");
+            RenderManager.ManageRenderingForEntity(Entity("ship"));
+            MovementManager.ManageMovementForEntity(Entity("ship"));
+            CollisionManager.ManageCollisionsForEntity(Entity("ship"));
         }
 
         /// <summary>
@@ -115,6 +141,10 @@ namespace GK.Xna.Game
 
             // TODO: Add your update logic here
 
+            AnimationManager.Animate(gameTime);
+            MovementManager.Animate(gameTime);
+            CollisionManager.Animate(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -124,9 +154,11 @@ namespace GK.Xna.Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+
+            RenderManager.Render(this._spriteBatch);
 
             base.Draw(gameTime);
         }
@@ -201,7 +233,7 @@ namespace GK.Xna.Game
         /// </summary>
         public GK.Xna.Graphics.RenderManagerHybrid RenderManager
         {
-            get { return.this._renderManager; }
+            get { return this._renderManager; }
         }
 
 
@@ -211,6 +243,103 @@ namespace GK.Xna.Game
         public GK.Xna.Cameras.Camera ActiveCamera
         {
             get { return this._cameras["active"]; }
+        }
+
+
+        /// <summary>
+        /// Creates a sprite sheet.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="framesWide"></param>
+        /// <param name="framesHigh"></param>
+        /// <param name="frameWidth"></param>
+        /// <param name="frameHeight"></param>
+        /// <param name="position"></param>
+        /// <param name="frameDelay"></param>
+        /// <param name="shouldLoop"></param>
+        public void CreateSpriteSheet(String nameOfTextureAsset, Vector2 initialPosition, Int64 framesWide, Int64 framesHigh, Int64 frameWidth, Int64 frameHeight, Double frameDelay, Boolean shouldLoop)
+        {
+            Texture2D texture = this.Content.Load<Texture2D>(nameOfTextureAsset);
+            this._spriteSheets[nameOfTextureAsset] = new GK.Xna.Graphics.Sprite2D(texture, framesWide, framesHigh, frameWidth, frameHeight, initialPosition, frameDelay, shouldLoop);
+        }
+
+
+        /// <summary>
+        /// Creates a model asset.
+        /// </summary>
+        /// <param name="nameOfModelAsset"></param>
+        /// <param name="initialPosition"></param>
+        public void CreateModel(String nameOfModelAsset, Vector2 initialPosition)
+        {
+            this._models[nameOfModelAsset] = new GK.Xna.Models.Model(nameOfModelAsset, new Vector3(initialPosition, 0.0f), this);
+        }
+
+
+        /// <summary>
+        /// Creates a game entity.
+        /// </summary>
+        /// <param name="initialPosition"></param>
+        /// <param name="initialVelocity"></param>
+        /// <param name="initialRotation"></param>
+        /// <param name="initialScale"></param>
+        /// <param name="z"></param>
+        public void CreateEntity(String name, Vector2 initialPosition, Vector2 initialVelocity, Double initialRotation, Double initialScale, Int64 z = 1)
+        {
+            this._entities[name] = new GK.Xna.Game.GameEntityHybrid(initialPosition, initialVelocity, initialRotation, initialScale, z);
+        }
+
+
+        /// <summary>
+        /// Returns the game entity having the provided name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public GK.Xna.Game.GameEntityHybrid Entity(String name)
+        {
+            return this._entities[name];
+        }
+
+
+        /// <summary>
+        /// Creates an entity state (name, sprite, model, collision zones)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="sprite"></param>
+        /// <param name="model"></param>
+        /// <param name="collisionZones"></param>
+        public void CreateEntityState(String stateName, String spriteSheetName, String modelName, List<Rectangle> collisionZones)
+        {
+            GK.Xna.Graphics.Sprite2D sprite = null;
+            GK.Xna.Models.Model model = null;
+            if (null != spriteSheetName)
+            {
+                sprite = this._spriteSheets[spriteSheetName];
+            }
+            if (null != modelName)
+            {
+                model = this._models[modelName];
+            }
+            this._entityStates[stateName] = new GK.Xna.Game.EntityStateHybrid(stateName, sprite, model, collisionZones);
+            this._entityStates[stateName].Activate();
+        }
+
+
+        /// <summary>
+        /// Assigns an entity state to a game entity.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="entity"></param>
+        public void AssignEntityStateToEntity(String stateName, String entityName)
+        {
+            try
+            {
+                GK.Xna.Game.GameEntityHybrid entity = this._entities[entityName];
+                GK.Xna.Game.EntityStateHybrid state = this._entityStates[stateName];
+                entity.RegisterEntityState((GK.Xna.Game.EntityState2D)state);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

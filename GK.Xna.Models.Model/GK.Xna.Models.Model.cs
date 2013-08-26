@@ -40,8 +40,9 @@ namespace GK.Xna.Models
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
-                    effect.PreferPerPixelLighting = true;
+                    //effect.EnableDefaultLighting();
+                    effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
+                    effect.PreferPerPixelLighting = false;
 
                     effect.World = transforms[mesh.ParentBone.Index] * position * rotation;
 

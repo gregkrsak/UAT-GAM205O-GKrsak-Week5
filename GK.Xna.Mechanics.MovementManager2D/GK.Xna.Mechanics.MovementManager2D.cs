@@ -64,10 +64,13 @@ namespace GK.Xna.Mechanics
                 // move entity's sprites
                 foreach (GK.Xna.Game.EntityState2D state in entity.EntityStates)
                 {
-                    state.Sprite.Position = Vector2.Add(state.Sprite.Position, entity.Velocity);
-                    state.Sprite.Rotation = entity.Rotation;
-                    state.Sprite.Scale = entity.Scale;
-                    state.Sprite.Z = entity.Z;
+                    if (null != state.Sprite)
+                    {
+                        state.Sprite.Position = Vector2.Add(state.Sprite.Position, entity.Velocity);
+                        state.Sprite.Rotation = entity.Rotation;
+                        state.Sprite.Scale = entity.Scale;
+                        state.Sprite.Z = entity.Z;
+                    }
                 }
             }
         }
