@@ -30,20 +30,8 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Week5-ModelTest-Terrain1.fbx">
-      <Name>Week5-ModelTest-Terrain1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Week5-ModelTest-Terrain2.fbx">
-      <Name>Week5-ModelTest-Terrain2</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GKrsak-Ship-Keyhole-v1.fbx">
-      <Name>GKrsak-Ship-Keyhole-v1</Name>
+    <Compile Include="Widget.fbx">
+      <Name>Widget</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>

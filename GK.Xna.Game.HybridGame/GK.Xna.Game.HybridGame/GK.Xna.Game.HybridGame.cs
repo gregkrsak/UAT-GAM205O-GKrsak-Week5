@@ -101,22 +101,23 @@ namespace GK.Xna.Game
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            
-            // Ship
-            Vector2 shipPosition = new Vector2(0.0f, 0.0f);
-            Vector2 shipVelocity = Vector2.Zero;
-            Double shipRotation = MathHelper.ToRadians(180.0f);
-            Double shipScale = 1.0;
-            Rectangle shipCollision_flying = new Rectangle(0, 0, 64, 32);
-            List<Rectangle> shipCollisions = new List<Rectangle>();
-            shipCollisions.Add(shipCollision_flying);
-            CreateModel("GKrsak-Ship-Keyhole-v1", shipPosition);
-            CreateEntity("ship", shipPosition, shipVelocity, shipRotation, shipScale);
-            CreateEntityState("ship_flying", null, "GKrsak-Ship-Keyhole-v1", shipCollisions);
-            AssignEntityStateToEntity("ship_flying", "ship");
-            RenderManager.ManageRenderingForEntity(Entity("ship"));
-            MovementManager.ManageMovementForEntity(Entity("ship"));
-            CollisionManager.ManageCollisionsForEntity(Entity("ship"));
+
+            // The player widget
+            Vector2 widgetPosition = new Vector2(0.0f, 0.0f);
+            Vector2 widgetVelocity = Vector2.Zero;
+            Double widgetRotation = MathHelper.ToRadians(0.0f);
+            Double widgetScale = 1.0;
+            Rectangle widgetCollision_stationary = new Rectangle(0, 0, 64, 32);
+            List<Rectangle> widgetCollisions = new List<Rectangle>();
+            widgetCollisions.Add(widgetCollision_stationary);
+            CreateModel("Widget", widgetPosition);
+            CreateEntity("playerWidget", widgetPosition, widgetVelocity, widgetRotation, widgetScale);
+            Entity("playerWidget").Uuid = "playerWidget";
+            CreateEntityState("playerWidget_default", null, "Widget", widgetCollisions);
+            AssignEntityStateToEntity("playerWidget_default", "playerWidget");
+            RenderManager.ManageRenderingForEntity(Entity("playerWidget"));
+            MovementManager.ManageMovementForEntity(Entity("playerWidget"));
+            CollisionManager.ManageCollisionsForEntity(Entity("playerWidget"));
         }
 
         /// <summary>
