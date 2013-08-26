@@ -76,6 +76,10 @@ namespace GK.Xna.Cameras
             {
                 return this._projectionMatrix;
             }
+            set
+            {
+                this._projectionMatrix = value;
+            }
         }
 
 
@@ -84,6 +88,10 @@ namespace GK.Xna.Cameras
             get
             {
                 return this._viewMatrix;
+            }
+            set
+            {
+                this._viewMatrix = value;
             }
         }
     }

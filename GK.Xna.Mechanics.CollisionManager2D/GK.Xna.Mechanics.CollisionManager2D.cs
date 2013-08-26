@@ -65,15 +65,11 @@ namespace GK.Xna.Mechanics
                 {
                     if (sourceEntity != targetEntity)
                     {
-                        if ((sourceEntity.Z > 0) || (targetEntity.Z > 0))
+                        if (sourceEntity.HasCollidedWith(targetEntity))
                         {
-                            //System.Console.WriteLine("{0} <-> {0}", sourceEntity.Uuid, targetEntity.Uuid);
-                            if (sourceEntity.HasCollidedWith(targetEntity))
-                            {
-                                GK.Xna.Logs.Debug.Log("Collision between entity <<" + sourceEntity.Uuid + ">> and entity <<" + targetEntity.Uuid + ">>");
-                                System.Console.WriteLine("Collision between entity <<" + sourceEntity.Uuid + ">> and entity <<" + targetEntity.Uuid + ">>");
-                                base.EventFire(new Collision2D(sourceEntity, targetEntity));
-                            }
+                            GK.Xna.Logs.Debug.Log("Collision between entity <<" + sourceEntity.Uuid + ">> and entity <<" + targetEntity.Uuid + ">>");
+                            //System.Console.WriteLine("Collision between entity <<" + sourceEntity.Uuid + ">> and entity <<" + targetEntity.Uuid + ">>");
+                            base.EventFire(new Collision2D(sourceEntity, targetEntity));
                         }
                     }
                 }

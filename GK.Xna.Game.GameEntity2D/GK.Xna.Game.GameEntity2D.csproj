@@ -67,6 +67,10 @@
       <Project>{3949B507-5504-4366-A4C1-CC0D173C214C}</Project>
       <Name>GK.Xna.Game.EntityState2D</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GK.Xna.Game.GameState\GK.Xna.Game.GameState.csproj">
+      <Project>{6D0EAF0F-8A65-4A93-9B9C-B6A6C05BA5F5}</Project>
+      <Name>GK.Xna.Game.GameState</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GK.Xna.Logs.Debug\GK.Xna.Logs.Debug.csproj">
       <Project>{4895643B-1E19-4936-84C2-FBE3EB1F6396}</Project>
       <Name>GK.Xna.Logs.Debug</Name>

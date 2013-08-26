@@ -32,8 +32,7 @@ namespace GK.Xna.Mechanics
 {
     public class MovementManagerHybrid : GK.Xna.Mechanics.MovementManager2D
     {
-        public MovementManagerHybrid()
-            : base()
+        public MovementManagerHybrid() : base()
         {
         }
 

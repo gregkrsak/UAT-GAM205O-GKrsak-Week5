@@ -39,6 +39,7 @@ namespace GK.Xna.Game
         protected Double _rotation;
         protected Double _scale;
         protected Int64 _z;
+        protected Int64 _ignoreZ;
 
         protected Int64 _health;
 
@@ -48,7 +49,7 @@ namespace GK.Xna.Game
         protected List<GK.Xna.Game.EntityState2D> _registeredStates;
 
 
-        public GameEntity2D(Vector2 position, Vector2 velocity, Double rotation, Double scale, Int64 z = 1)
+        public GameEntity2D(Vector2 position, Vector2 velocity, Double rotation, Double scale, Int64 z = 1, Int64 ignoreZ = 0)
         {
             Guid uuid = System.Guid.NewGuid();
             this._uuid = uuid.ToString();
@@ -57,6 +58,7 @@ namespace GK.Xna.Game
             this.Rotation = rotation;
             this.Scale = scale;
             this.Z = z;
+            this.IgnoreZ = 0;
             this._registeredStates = new List<GK.Xna.Game.EntityState2D>();
             GK.Xna.Logs.Debug.Log("Initialized new entity <<" + this.Uuid + ">> at <<" + this.Position.X + "," + this.Position.Y + ">>");
         }
@@ -120,7 +122,7 @@ namespace GK.Xna.Game
         {
             Boolean result = false;
 
-            //if (this.Z != target.Z) { return result; }
+            if (this.IgnoreZ == target.Z) { return result; }
 
             List<Rectangle> sourceCollisionZones = new List<Rectangle>();
             List<Rectangle> targetCollisionZones = new List<Rectangle>();
@@ -131,6 +133,10 @@ namespace GK.Xna.Game
                 {
                     Rectangle offsetCollisionZone = new Rectangle(collisionZone.X + (int)this.Position.X, collisionZone.Y + (int)this.Position.Y, collisionZone.Width, collisionZone.Height);
                     sourceCollisionZones.Add(offsetCollisionZone);
+                    if (GK.Xna.Game.GameState.State == GK.Xna.Game.GameState.Error)
+                    {
+                        System.Console.WriteLine("{0}: {1}", this.Uuid, offsetCollisionZone);
+                    }
                 }
             }
             foreach (GK.Xna.Game.EntityState2D targetState in target.ActiveEntityStates())
@@ -139,6 +145,10 @@ namespace GK.Xna.Game
                 {
                     Rectangle offsetCollisionZone = new Rectangle(collisionZone.X + (int)target.Position.X, collisionZone.Y + (int)target.Position.Y, collisionZone.Width, collisionZone.Height);
                     targetCollisionZones.Add(offsetCollisionZone);
+                    if (GK.Xna.Game.GameState.State == GK.Xna.Game.GameState.Error)
+                    {
+                        System.Console.WriteLine("{0}: {1}", target.Uuid, offsetCollisionZone);
+                    }
                 }
             }
 
@@ -259,6 +269,19 @@ namespace GK.Xna.Game
             set
             {
                 this._z = value;
+            }
+        }
+
+
+        public Int64 IgnoreZ
+        {
+            get
+            {
+                return this._ignoreZ;
+            }
+            set
+            {
+                this._ignoreZ = value;
             }
         }
 

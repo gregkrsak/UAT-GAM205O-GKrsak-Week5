@@ -34,7 +34,7 @@ namespace GK.Xna.Game
     {
 
 
-        public GameEntityHybrid(Vector2 position, Vector2 velocity, Double rotation, Double scale, Int64 z = 1) : base(position, velocity, rotation, scale, z)
+        public GameEntityHybrid(Vector2 position, Vector2 velocity, Double rotation, Double scale, Int64 z = 1, Int64 ignoreZ = 0) : base(position, velocity, rotation, scale, z, ignoreZ)
         {
 
         }
