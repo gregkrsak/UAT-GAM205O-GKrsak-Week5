@@ -47,9 +47,17 @@ namespace GK.Xna.Game
         GK.Xna.Graphics.RenderManagerHybrid _renderManager;
         GK.Xna.Mechanics.CollisionManager2D _collisionManager;
         GK.Xna.Mechanics.MovementManagerHybrid _movementManager;
+        // Keyboard manager
+        GK.Xna.Input.KeyboardManager _keyboardManager;
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
+
+        // Terrain
+        List<GK.Xna.Game.GameEntityHybrid> _terrainSegments = new List<GameEntityHybrid>();
+        Int64 _totalTerrainSegments = 0;
+        Int16 degrees = 0;
+        Random _rand = new Random();
 
 
         public HybridGame()
@@ -87,9 +95,7 @@ namespace GK.Xna.Game
             this._renderManager = new Graphics.RenderManagerHybrid(this._cameras["active"]);
             this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
             this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
-
-            // Set the initial game state
-            GameState = GameStateStartup;
+            this._keyboardManager = new GK.Xna.Input.KeyboardManager();
 
             base.Initialize();
         }
@@ -105,19 +111,52 @@ namespace GK.Xna.Game
 
             // TODO: use this.Content to load your game content here
 
+            // Background music
+            _songs[GameStateStartup] = null;
+            _songs[GameStateAttract] = null;
+            _songs[GameStateTutorial] = null;
+            _songs[GameStatePlayingAlive] = null;
+            _songs[GameStatePlayingDead] = null;
+            _songs[GameStateGameOverWon] = null;
+            _songs[GameStateGameOverLost] = null;
+            _songs[GameStateShutdown] = null;
+            _songs[GameStateOff] = null;
+            _songs[GameStateError] = null;
+            AssignSongAssetToGameState("danosongs.com-junk-ship-gold", GameStatePlayingAlive);
+
+            // Set the initial game state
+            GameState = GameStateStartup;
+
             // The player widget
             Vector2 widgetPosition = new Vector2(0.0f, 0.0f);
             Vector2 widgetVelocity = Vector2.Zero;
             Double widgetRotation = MathHelper.ToRadians(0.0f);
             Double widgetScale = 1.0;
-            Rectangle widgetCollision_stationary = new Rectangle(0, 0, 64, 32);
+            Rectangle widgetCollision_stationary = new Rectangle(-8, -8, 16, 16);
             List<Rectangle> widgetCollisions = new List<Rectangle>();
             widgetCollisions.Add(widgetCollision_stationary);
             CreateModel("Widget", widgetPosition);
             CreateEntity("playerWidget", widgetPosition, widgetVelocity, widgetRotation, widgetScale);
             Entity("playerWidget").Uuid = "playerWidget";
+            Entity("playerWidget").Z = 1;
             CreateEntityState("playerWidget_default", null, "Widget", widgetCollisions);
             AssignEntityStateToEntity("playerWidget_default", "playerWidget");
+            // begin player collision handler
+            Entity("playerWidget").HandleCollision = (sender, collision) =>
+            {
+                GK.Xna.Game.GameEntityHybrid collider = (GK.Xna.Game.GameEntityHybrid)collision.Observer1;
+                if (collider == Entity("playerWidget"))
+                {
+                    GK.Xna.Logs.Debug.Log("Handling collision for <<" + collider.Uuid + ">>");
+                    if (GameState == GameStatePlayingAlive)
+                    {
+                        GK.Xna.Logs.Debug.Log("Killing <<" + collider.Uuid + ">>");
+                        GameState = GameStatePlayingDead;
+                    }
+                }
+            };
+            // end player collision handler
+            AnimationManager.ManageAnimationsForEntity(Entity("playerWidget"));
             RenderManager.ManageRenderingForEntity(Entity("playerWidget"));
             MovementManager.ManageMovementForEntity(Entity("playerWidget"));
             CollisionManager.ManageCollisionsForEntity(Entity("playerWidget"));
@@ -139,9 +178,13 @@ namespace GK.Xna.Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardManager.Animate(gameTime);
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (KeyboardManager.KeyJustReleased(Keys.Escape))
+            {
                 this.Exit();
+            }
 
             // TODO: Add your update logic here
 
@@ -161,6 +204,20 @@ namespace GK.Xna.Game
             // PlayingAlive
             if (GameState == GameStatePlayingAlive)
             {
+                // Drift left
+                if (KeyboardManager.KeyJustPressed(Keys.A))
+                {
+                    Vector2 v = new Vector2(0.5f, 0.0f);
+                    Entity("playerWidget").Velocity = Vector2.Add(Entity("playerWidget").Velocity, v);
+                }
+                // Drift right
+                if (KeyboardManager.KeyJustPressed(Keys.D))
+                {
+                    Vector2 v = new Vector2(-0.5f, 0.0f);
+                    Entity("playerWidget").Velocity = Vector2.Add(Entity("playerWidget").Velocity, v);
+                }
+
+                GenerateTerrain();
                 AnimationManager.Animate(gameTime);
                 MovementManager.Animate(gameTime);
                 CollisionManager.Animate(gameTime);
@@ -269,7 +326,15 @@ namespace GK.Xna.Game
         public Byte GameState
         {
             get { return GK.Xna.Game.GameState.State; }
-            set { GK.Xna.Game.GameState.State = value; }
+            set
+            { 
+                GK.Xna.Game.GameState.State = value;
+                if (_songs[value] != null)
+                {
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(_songs[GameState]);
+                }
+            }
         }
 
 
@@ -321,6 +386,15 @@ namespace GK.Xna.Game
         public GK.Xna.Graphics.RenderManagerHybrid RenderManager
         {
             get { return this._renderManager; }
+        }
+
+
+        /// <summary>
+        /// Manages keyboard input.
+        /// </summary>
+        public GK.Xna.Input.KeyboardManager KeyboardManager
+        {
+            get { return this._keyboardManager; }
         }
 
 
@@ -426,6 +500,82 @@ namespace GK.Xna.Game
             }
             catch (Exception)
             {
+            }
+        }
+
+
+        /// <summary>
+        /// Generates the terrain.
+        /// </summary>
+        private void GenerateTerrain()
+        {
+            Double leftX;
+            Double rightX;
+
+            // -- GENERATE NEW SEGMENTS
+
+            if ((_totalTerrainSegments < 1000) && (_rand.Next(5) == 3))
+            {
+                if ((degrees += 2) > 359) { degrees -= 360; }
+                Double sineWaveA = 200 * Math.Sin(MathHelper.ToRadians(degrees));
+                Double sineWaveB = 200 * Math.Sin(MathHelper.ToRadians(degrees));
+                leftX = -150 + sineWaveA;
+                rightX = 150 + sineWaveB;
+
+                Vector2 leftSegmentPos = new Vector2((float)leftX, -250.0f);
+                Vector2 rightSegmentPos = new Vector2((float)rightX, -250.0f);
+                // Generate the segments
+                GK.Xna.Game.GameEntityHybrid leftSegment = new GameEntityHybrid(leftSegmentPos, new Vector2(0.0f, 2.0f), MathHelper.ToRadians(180.0f), 1.0f, 0);
+                GK.Xna.Game.GameEntityHybrid rightSegment = new GameEntityHybrid(rightSegmentPos, new Vector2(0.0f, 2.0f), MathHelper.ToRadians(180.0f), 1.0f, 0);
+                // Generate the segment collision zones
+                Rectangle collisionZone = new Rectangle(0, 0, 160, 160);
+                List<Rectangle> segmentCollisions = new List<Rectangle>();
+                segmentCollisions.Add(collisionZone);
+                // Load the terrain model
+                GK.Xna.Models.Model leftTerrainModel = new GK.Xna.Models.Model("Widget", new Vector3(leftSegmentPos, 0.0f), this);
+                GK.Xna.Models.Model rightTerrainModel = new GK.Xna.Models.Model("Widget", new Vector3(rightSegmentPos, 0.0f), this);
+                // Optional: Create a sprite to view the collision zone
+                Texture2D zone = new Texture2D(GraphicsDevice, collisionZone.Width, collisionZone.Height);
+                Color[] data = Enumerable.Range(0, collisionZone.Width * collisionZone.Height).Select(c => Color.Blue).ToArray();
+                zone.SetData(data);
+                GK.Xna.Graphics.Sprite2D leftZoneSprite = new Graphics.Sprite2D(zone, 1, 1, collisionZone.Width, collisionZone.Height, leftSegmentPos, 100, true);
+                GK.Xna.Graphics.Sprite2D rightZoneSprite = new Graphics.Sprite2D(zone, 1, 1, collisionZone.Width, collisionZone.Height, rightSegmentPos, 100, true);
+                // Create a segment state
+                GK.Xna.Game.EntityStateHybrid leftSegmentState = new EntityStateHybrid("terrain", leftZoneSprite, leftTerrainModel, segmentCollisions);
+                GK.Xna.Game.EntityStateHybrid rightSegmentState = new EntityStateHybrid("terrain", rightZoneSprite, rightTerrainModel, segmentCollisions);
+                leftSegmentState.Activate();
+                rightSegmentState.Activate();
+                // Register the state with the entity
+                leftSegment.RegisterEntityState(leftSegmentState);
+                rightSegment.RegisterEntityState(rightSegmentState);
+                // Add the segments to the segment buffer
+                _terrainSegments.Add(leftSegment);
+                _terrainSegments.Add(rightSegment);
+                // Manage the segments
+                   
+                MovementManager.ManageMovementForEntity(leftSegment);
+                MovementManager.ManageMovementForEntity(rightSegment);
+                RenderManager.ManageRenderingForEntity(leftSegment);
+                RenderManager.ManageRenderingForEntity(rightSegment);
+                CollisionManager.ManageCollisionsForEntity(leftSegment);
+                CollisionManager.ManageCollisionsForEntity(rightSegment);
+                _totalTerrainSegments++;
+            }
+
+            // -- DESTROY OFF SCREEN SEGMENTS
+
+            for (Int64 x = 0; x < _terrainSegments.Count; x++)
+            {
+                GK.Xna.Game.GameEntityHybrid segment = _terrainSegments.ElementAt((int)x);
+                if (segment.Position.Y > 300)
+                {
+                    this.RenderManager.UnmanageRenderingForEntity(segment);
+                    this.MovementManager.UnmanageMovementForEntity(segment);
+                    CollisionManager.UnmanageCollisionsForEntity(segment);
+                    CollisionManager.UnmanageCollisionsForEntity(segment);
+                    _terrainSegments.Remove(segment);
+                    _totalTerrainSegments--;
+                }
             }
         }
     }

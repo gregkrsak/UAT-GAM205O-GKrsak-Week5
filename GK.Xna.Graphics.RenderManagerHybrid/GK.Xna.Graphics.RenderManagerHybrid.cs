@@ -43,7 +43,6 @@ namespace GK.Xna.Graphics
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            base.Render(spriteBatch);
             // draw the model
             foreach (GK.Xna.Game.GameEntityHybrid entity in this._managedEntities)
             {
@@ -59,6 +58,7 @@ namespace GK.Xna.Graphics
                     }
                 }
             }
+            base.Render(spriteBatch);
         }
 
 

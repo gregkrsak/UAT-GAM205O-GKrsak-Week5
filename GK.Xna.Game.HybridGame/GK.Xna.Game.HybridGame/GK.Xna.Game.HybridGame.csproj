@@ -126,6 +126,18 @@
       <Project>{712759AD-BD2C-4C3D-B534-E7A6A97D86F1}</Project>
       <Name>GK.Xna.Graphics.Sprite2D</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\GK.Xna.Input.KeyboardManager\GK.Xna.Input.KeyboardManager.csproj">
+      <Project>{9F4F46F1-0BCC-488B-8B00-79583B5BC63B}</Project>
+      <Name>GK.Xna.Input.KeyboardManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GK.Xna.Logs.Debug\GK.Xna.Logs.Debug.csproj">
+      <Project>{4895643B-1E19-4936-84C2-FBE3EB1F6396}</Project>
+      <Name>GK.Xna.Logs.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GK.Xna.Mechanics.Collision2D\GK.Xna.Mechanics.Collision2D.csproj">
+      <Project>{AC599DE7-5373-4B76-BD48-BBAC075DE754}</Project>
+      <Name>GK.Xna.Mechanics.Collision2D</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GK.Xna.Mechanics.CollisionManager2D\GK.Xna.Mechanics.CollisionManager2D.csproj">
       <Project>{47624CD6-C017-4B2A-8CFC-051C9DF2C871}</Project>
       <Name>GK.Xna.Mechanics.CollisionManager2D</Name>

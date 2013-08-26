@@ -38,7 +38,7 @@ namespace GK.Xna.Logs
 
 
         static public void Log(String text)
-        {
+        {/*
             if (null == Debug._console)
             {
                 Debug._key = 0;
@@ -50,7 +50,7 @@ namespace GK.Xna.Logs
                 value.Add(timestamp, text);
                 Debug._console.Add(Debug._key++, value);
                 System.Console.WriteLine("[" + timestamp + "] " + text);
-            //#endif
+            //#endif*/
         }
 
 

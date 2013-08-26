@@ -120,7 +120,7 @@ namespace GK.Xna.Game
         {
             Boolean result = false;
 
-            if (this.Z != target.Z) { return result; }
+            //if (this.Z != target.Z) { return result; }
 
             List<Rectangle> sourceCollisionZones = new List<Rectangle>();
             List<Rectangle> targetCollisionZones = new List<Rectangle>();
