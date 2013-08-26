@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("GK.Xna.Game.HybridGame")]
 [assembly: AssemblyProduct("GK.Xna.Game.HybridGame")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A simple game in C#")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright ©  2013 Greg M. Krsak")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
