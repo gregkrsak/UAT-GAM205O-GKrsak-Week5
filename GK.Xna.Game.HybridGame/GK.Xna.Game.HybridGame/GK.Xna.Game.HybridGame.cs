@@ -88,6 +88,9 @@ namespace GK.Xna.Game
             this._collisionManager = new GK.Xna.Mechanics.CollisionManager2D();
             this._movementManager = new GK.Xna.Mechanics.MovementManagerHybrid();
 
+            // Set the initial game state
+            GameState = GameStateStartup;
+
             base.Initialize();
         }
 
@@ -142,9 +145,51 @@ namespace GK.Xna.Game
 
             // TODO: Add your update logic here
 
-            AnimationManager.Animate(gameTime);
-            MovementManager.Animate(gameTime);
-            CollisionManager.Animate(gameTime);
+            // Startup
+            if (GameState == GameStateStartup)
+            {
+                GameState = GameStatePlayingAlive;
+            }
+            // Attract
+            if (GameState == GameStateAttract)
+            {
+            }
+            // Tutorial
+            if (GameState == GameStateTutorial)
+            {
+            }
+            // PlayingAlive
+            if (GameState == GameStatePlayingAlive)
+            {
+                AnimationManager.Animate(gameTime);
+                MovementManager.Animate(gameTime);
+                CollisionManager.Animate(gameTime);
+            }
+            // PlayingDead
+            if (GameState == GameStatePlayingDead)
+            {
+            }
+            // GameOverWon
+            if (GameState == GameStateGameOverWon)
+            {
+            }
+            // GameOverLost
+            if (GameState == GameStateGameOverLost)
+            {
+            }
+            // Shutdown
+            if (GameState == GameStateShutdown)
+            {
+            }
+            // Off
+            if (GameState == GameStateOff)
+            {
+            }
+            // Error
+            if (GameState == GameStateError)
+            {
+            }
+            
 
             base.Update(gameTime);
         }
@@ -159,7 +204,48 @@ namespace GK.Xna.Game
 
             // TODO: Add your drawing code here
 
-            RenderManager.Render(this._spriteBatch);
+            // Startup
+            if (GameState == GameStateStartup)
+            {
+            }
+            // Attract
+            if (GameState == GameStateAttract)
+            {
+            }
+            // Tutorial
+            if (GameState == GameStateTutorial)
+            {
+            }
+            // PlayingAlive
+            if (GameState == GameStatePlayingAlive)
+            {
+                RenderManager.Render(this._spriteBatch);
+            }
+            // PlayingDead
+            if (GameState == GameStatePlayingDead)
+            {
+            }
+            // GameOverWon
+            if (GameState == GameStateGameOverWon)
+            {
+            }
+            // GameOverLost
+            if (GameState == GameStateGameOverLost)
+            {
+            }
+            // Shutdown
+            if (GameState == GameStateShutdown)
+            {
+            }
+            // Off
+            if (GameState == GameStateOff)
+            {
+            }
+            // Error
+            if (GameState == GameStateError)
+            {
+            }
+            
 
             base.Draw(gameTime);
         }
